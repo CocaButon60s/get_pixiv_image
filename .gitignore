@@ -1,0 +1,4 @@
+config.py
+images/
+.venv/
+__pycache__/
