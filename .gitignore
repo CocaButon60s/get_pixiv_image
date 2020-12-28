@@ -2,3 +2,5 @@ config.py
 images/
 .venv/
 __pycache__/
+build/
+dist/

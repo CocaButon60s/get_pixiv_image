@@ -5,8 +5,13 @@ name = "pypi"
 
 [packages]
 pixiv-api = "*"
+pyinstaller = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.7"
+
+[scripts]
+start = "python get_pixiv_image.py"
+build = "pyinstaller --onefile get_pixiv_image.py"
