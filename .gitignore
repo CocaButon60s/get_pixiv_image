@@ -4,3 +4,5 @@ images/
 __pycache__/
 build/
 dist/
+get_pixiv_image.exe
+get_pixiv_image.spec
