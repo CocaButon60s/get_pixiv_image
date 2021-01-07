@@ -1,7 +1,10 @@
 <template>
   <div class="container-fluid form-group">
     <input-form :contents.sync="id">Pixiv ID:</input-form>
-    <button-form @callback="get_image" :isLoading="isLoading">取得</button-form>
+    <button-form @callback="get_image" :isLoading="isLoading">
+      取得
+      <template v-slot:after-push>取得中</template>
+    </button-form>
   </div>
 </template>
 

@@ -5,7 +5,7 @@
               <div class="text" v-show="!isLoading"><slot/></div>
               <div class="spinner" v-show="isLoading">
                   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  <span>Loading...</span>
+                  <slot name="after-push"></slot>
               </div>
           </b-button>
       </div>

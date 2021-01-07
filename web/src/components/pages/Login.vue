@@ -2,7 +2,10 @@
   <div class="container-fluid form-group">
     <input-form :contents.sync="id">ユーザーID:</input-form>
     <input-form :contents.sync="pswd">password:</input-form>
-    <button-form @callback="login" :isLoading="isLoading">ログイン</button-form>
+    <button-form @callback="login" :isLoading="isLoading">
+      ログイン
+      <template v-slot:after-push>Loading...</template>
+    </button-form>
   </div>
 </template>
 
