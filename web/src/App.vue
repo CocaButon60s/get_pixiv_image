@@ -15,15 +15,9 @@
 import ModalForm from '@/components/parts/ModalForm'
 export default {
   name: 'App',
-  data: function () {
-    return {
-      modal: ''
-    }
-  },
-  mounted () {
-    this.modal = this.$refs.modal
-  },
-  components: {ModalForm}
+  data: function () { return { modal: '' } },
+  mounted () { this.modal = this.$refs.modal },
+  components: { ModalForm }
 }
 </script>
 

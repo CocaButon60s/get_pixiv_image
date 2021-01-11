@@ -10,7 +10,7 @@
       </b-container>
     </template>
     <template #modal-footer>
-      <b-button :variant="okColor" v-show="isShownOK" @click="ok()">{{ okLabel }}</b-button>
+      <b-button :variant="okInfo.color" v-show="okInfo.isShown" @click="okInfo.cb">{{ okInfo.label }}</b-button>
     </template>
   </b-modal>
 </template>
@@ -22,26 +22,33 @@ export default {
     return {
       title: '',
       isLoading: false,
-      isShownOK: true,
+      isShown: false,
       content: '',
-      okColor: 'secondary',
-      okLabel: '閉じる',
-      isShown: false
+      okInfo: {
+        isShown: false,
+        color: 'secondary',
+        label: '閉じる',
+        cb: this.hideModal
+      }
     }
   },
   methods: {
-    showModal (title, isLoading, content, okColor, okLabel) {
+    showModal (title, content, isLoading, okInfo) {
       this.title = title
-      this.isLoading = isLoading
       this.content = content
-      this.okColor = (typeof (okColor) !== 'undefined' ? okColor : 'secondary')
-      this.isShownOK = (typeof (okLabel) !== 'undefined')
-      this.okLabel = (typeof (okLabel) !== 'undefined' ? okLabel : '')
+      this.isLoading = isLoading
+
+      this.okInfo.isShown = false
+      if (typeof (okInfo) !== 'undefined') {
+        this.okInfo.isShown = true
+        this.okInfo.color = ('color' in okInfo ? okInfo.color : 'secondary')
+        this.okInfo.label = ('label' in okInfo ? okInfo.label : '')
+        this.okInfo.cb = ('cb' in okInfo ? okInfo.cb : this.hideModal)
+      }
+
       this.isShown = true
     },
-    hideModal () { this.isShown = false },
-    setOkProc (func) { this.ok = func },
-    ok () { this.hideModal() }
+    hideModal () { this.isShown = false }
   }
 }
 </script>

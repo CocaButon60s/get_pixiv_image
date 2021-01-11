@@ -11,9 +11,7 @@
 <script>
 export default {
   name: 'InputForm',
-  methods: {
-    click () { this.$emit('callback') }
-  }
+  methods: { click () { this.$emit('callback') } }
 }
 </script>
 

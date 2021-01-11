@@ -28,14 +28,14 @@ export default {
     async login () {
       // パラメータチェック
       if (this.id === '') {
-        this.modal.showModal('IDエラー', false, 'ユーザーIDを入力してください', 'secondary', '閉じる')
+        this.modal.showModal('IDエラー', 'ユーザーIDを入力してください', false, {color: 'secondary', label: '閉じる'})
         return
       }
       if (this.pswd === '') {
-        this.modal.showModal('パスワードエラー', false, 'パスワードを入力してください', 'secondary', '閉じる')
+        this.modal.showModal('パスワードエラー', 'パスワードを入力してください', false, {color: 'secondary', label: '閉じる'})
         return
       }
-      this.modal.showModal('ログイン中', true, 'しばらくお待ちください')
+      this.modal.showModal('ログイン中', 'しばらくお待ちください', true)
 
       // ログイン処理
       var result = await eel.login(this.id, this.pswd)()
@@ -43,9 +43,9 @@ export default {
         this.modal.hideModal()
         Router.push('/get_image')
       } else if (result === 'ERR:LOGIN') {
-        this.modal.showModal('ログイン失敗', false, 'ユーザーDまたはパスワードが違います', 'secondary', '閉じる')
+        this.modal.showModal('ログイン失敗', 'ユーザーDまたはパスワードが違います', false, {color: 'secondary', label: '閉じる'})
       } else {
-        this.modal.showModal('内部エラー', false, '開発者に連絡してください', 'secondary', '閉じる')
+        this.modal.showModal('内部エラー', '開発者に連絡してください', false, {color: 'secondary', label: '閉じる'})
       }
     }
   },

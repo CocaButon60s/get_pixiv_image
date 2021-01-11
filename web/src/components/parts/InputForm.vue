@@ -12,12 +12,7 @@
 <script>
 export default {
   name: 'InputForm',
-  props: {
-    contents: {
-      type: String,
-      required: true
-    }
-  },
+  props: ['contents'],
   methods: { update: function (e) { this.$emit('update:contents', e) } }
 }
 </script>
