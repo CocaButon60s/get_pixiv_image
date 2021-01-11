@@ -1,26 +1,16 @@
 <template>
-  <div class="row m-5">
-      <div class="col text-center">
-          <b-button variant="primary" :disabled=isLoading @click="click">
-              <div class="text" v-show="!isLoading"><slot/></div>
-              <div class="spinner" v-show="isLoading">
-                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  <slot name="after-push"></slot>
-              </div>
+  <b-row class="m-5">
+      <b-col class="text-center">
+          <b-button variant="primary" @click="click">
+            <slot/>
           </b-button>
-      </div>
-  </div>
+      </b-col>
+  </b-row>
 </template>
 
 <script>
 export default {
   name: 'InputForm',
-  props: {
-    isLoading: {
-      type: Boolean,
-      required: true
-    }
-  },
   methods: {
     click () { this.$emit('callback') }
   }

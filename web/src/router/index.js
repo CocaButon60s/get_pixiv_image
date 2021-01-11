@@ -10,11 +10,13 @@ export default new Router({
     {
       path: '/',
       name: 'Login',
+      props: true,
       component: Login
     },
     {
       path: '/get_image',
       name: 'GetImage',
+      props: true,
       component: GetImage
     }
   ]

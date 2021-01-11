@@ -1,12 +1,12 @@
 <template>
-  <div class="row m-5">
-    <div class="col text-center">
+  <b-row class="m-5">
+    <b-col class="text-center">
       <label>
         <slot/>
         <b-form-input type="text" class="form-control" :value="contents" @change="update">
       </label>
-    </div>
-  </div>
+    </b-col>
+  </b-row>
 </template>
 
 <script>

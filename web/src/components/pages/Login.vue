@@ -1,12 +1,9 @@
 <template>
-  <div class="container-fluid form-group">
+  <b-container fluid class="form-group">
     <input-form :contents.sync="id">ユーザーID:</input-form>
     <input-form :contents.sync="pswd">password:</input-form>
-    <button-form @callback="login" :isLoading="isLoading">
-      ログイン
-      <template v-slot:after-push>Loading...</template>
-    </button-form>
-  </div>
+    <button-form @callback="login">ログイン</button-form>
+  </b-container>
 </template>
 
 <script>
@@ -18,10 +15,10 @@ export default {
   data: function () {
     return {
       id: '',
-      pswd: '',
-      isLoading: false
+      pswd: ''
     }
   },
+  props: ['modal'],
   mounted: async function () {
     var info = await eel.load_user_info()()
     this.id = info[0]
@@ -29,50 +26,26 @@ export default {
   },
   methods: {
     async login () {
-      this.isLoading = true
       // パラメータチェック
       if (this.id === '') {
-        await this.$bvModal.msgBoxOk('ユーザーIDを入力してください', {
-          'title': 'IDエラー',
-          'noCloseOnBackdrop': true,
-          'okVariant': 'secondary',
-          'okTitle': '閉じる'
-        })
-        this.isLoading = false
+        this.modal.showModal('IDエラー', false, 'ユーザーIDを入力してください', 'secondary', '閉じる')
         return
       }
       if (this.pswd === '') {
-        await this.$bvModal.msgBoxOk('パスワードを入力してください', {
-          'title': 'パスワードエラー',
-          'noCloseOnBackdrop': true,
-          'okVariant': 'secondary',
-          'okTitle': '閉じる'
-        })
-        this.isLoading = false
+        this.modal.showModal('パスワードエラー', false, 'パスワードを入力してください', 'secondary', '閉じる')
         return
       }
+      this.modal.showModal('ログイン中', true, 'しばらくお待ちください')
 
       // ログイン処理
       var result = await eel.login(this.id, this.pswd)()
       if (result === 'SUCCESS') {
-        this.isLoading = false
+        this.modal.hideModal()
         Router.push('/get_image')
       } else if (result === 'ERR:LOGIN') {
-        await this.$bvModal.msgBoxOk('ユーザーIDまたはパスワードが違います', {
-          'title': 'ログイン失敗',
-          'noCloseOnBackdrop': true,
-          'okVariant': 'secondary',
-          'okTitle': '閉じる'
-        })
-        this.isLoading = false
+        this.modal.showModal('ログイン失敗', false, 'ユーザーDまたはパスワードが違います', 'secondary', '閉じる')
       } else {
-        await this.$bvModal.msgBoxOk('開発者に連絡してください', {
-          'title': '内部エラー',
-          'noCloseOnBackdrop': true,
-          'okVariant': 'secondary',
-          'okTitle': '閉じる'
-        })
-        this.isLoading = false
+        this.modal.showModal('内部エラー', false, '開発者に連絡してください', 'secondary', '閉じる')
       }
     }
   },

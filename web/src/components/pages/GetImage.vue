@@ -1,11 +1,8 @@
 <template>
-  <div class="container-fluid form-group">
+  <b-container fluid class="form-group">
     <input-form :contents.sync="id">Pixiv ID:</input-form>
-    <button-form @callback="get_image" :isLoading="isLoading">
-      取得
-      <template v-slot:after-push>取得中</template>
-    </button-form>
-  </div>
+    <button-form @callback="get_image">取得</button-form>
+  </b-container>
 </template>
 
 <script>
@@ -15,43 +12,26 @@ export default {
   name: 'GetImage',
   data: function () {
     return {
-      id: '',
-      isLoading: false
+      id: ''
     }
   },
+  props: ['modal'],
   methods: {
     async get_image () {
-      this.isLoading = true
       // パラメータチェック
       if (this.id === '') {
-        await this.$bvModal.msgBoxOk('画像を取得するユーザーのIDを入力してください', {
-          'title': 'IDエラー',
-          'noCloseOnBackdrop': true,
-          'okVariant': 'secondary',
-          'okTitle': '閉じる'
-        })
-        this.isLoading = false
+        this.modal.showModal('IDエラー', false, '画像を取得するユーザーのIDを入力してください', 'secondary', '閉じる')
         return
       }
+      this.modal.showModal('画像取取得中', true, 'しばらくお待ちください', 'danger', '閉じる')
 
       // 画像取得
       var result = await eel.get_image(this.id)()
       if (result === 'SUCCESS') {
-        await this.$bvModal.msgBoxOk('imagesフォルダ内を確認してください', {
-          'title': '画像取得成功',
-          'noCloseOnBackdrop': true,
-          'okVariant': 'secondary',
-          'okTitle': '閉じる'
-        })
+        this.modal.showModal('画像取得成功', false, 'imagesフォルダ内を確認してください', 'secondary', '閉じる')
       } else {
-        await this.$bvModal.msgBoxOk('画像を取得するユーザーのIDを確認してください', {
-          'title': '画像取得失敗',
-          'noCloseOnBackdrop': true,
-          'okVariant': 'secondary',
-          'okTitle': '閉じる'
-        })
+        this.modal.showModal('画像取得失敗', false, 'IDを確認してください', 'secondary', '閉じる')
       }
-      this.isLoading = false
     }
   },
   components: {InputForm, ButtonForm}
