@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 eel = "*"
 pixiv-api = "*"
-pyinstaller = "*"
 
 [dev-packages]
 
