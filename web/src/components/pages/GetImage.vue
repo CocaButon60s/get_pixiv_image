@@ -10,9 +10,7 @@ import InputForm from '@/components/parts/InputForm'
 import ButtonForm from '@/components/parts/ButtonForm'
 export default {
   name: 'GetImage',
-  data: function () {
-    return { id: '' }
-  },
+  data: function () { return {id: ''} },
   props: ['modal'],
   methods: {
     async get_image () {
@@ -21,16 +19,19 @@ export default {
         this.modal.showModal('IDエラー', '画像を取得するユーザーのIDを入力してください', false, {color: 'secondary', label: '閉じる'})
         return
       }
-      this.modal.showModal('画像取取得中', 'しばらくお待ちください', true, {color: 'danger', label: '閉じる'})
-
+      this.modal.showModal('画像取取得中', 'しばらくお待ちください', true, {color: 'danger', label: '中止', cb: this.cancel})
       // 画像取得
-      var result = await eel.get_image(this.id)()
-      if (result === 'SUCCESS') {
-        this.modal.showModal('画像取得成功', 'imagesフォルダ内を確認してください', false, {color: 'secondary', label: '閉じる'})
-      } else {
-        this.modal.showModal('画像取得失敗', 'IDを確認してください', false, {color: 'secondary', label: '閉じる'})
-      }
-    }
+      await eel.py_set_target(this.id)()
+      var timer = setInterval(async () => {
+        var result = await eel.py_get_image()()
+        if (result === 'CONTINUE') return
+        if (result === 'SUCCESS') this.modal.showModal('画像取得成功', 'imagesフォルダ内を確認してください', false, {color: 'secondary', label: '閉じる'})
+        if (result === 'CANCEL') this.modal.showModal('画像取得中止', '画像取得を中止しました', false, {color: 'secondary', label: '閉じる'})
+        if (result === 'ERR') this.modal.showModal('画像取得失敗', 'IDを確認してください', false, {color: 'secondary', label: '閉じる'})
+        clearInterval(timer)
+      }, 2000)
+    },
+    async cancel () { await eel.py_cancel()() }
   },
   components: {InputForm, ButtonForm}
 }
