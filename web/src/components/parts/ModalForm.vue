@@ -48,7 +48,8 @@ export default {
 
       this.isShown = true
     },
-    hideModal () { this.isShown = false }
+    hideModal () { this.isShown = false },
+    setContent (content) { this.content = content }
   }
 }
 </script>

@@ -26,7 +26,10 @@ export default {
     },
     async get_image_loop () {
       var result = await eel.py_get_image()()
-      if (result === 'CONTINUE') setTimeout(this.get_image_loop, 0)
+      if (result === 'CONTINUE') {
+        this.modal.setContent('取得中 ...' + await eel.py_get_cnt()())
+        setTimeout(this.get_image_loop, 0)
+      }
       if (result === 'SUCCESS') this.modal.showModal('画像取得成功', 'imagesフォルダ内を確認してください', false, {color: 'secondary', label: '閉じる'})
       if (result === 'CANCEL') this.modal.showModal('画像取得中止', '画像取得を中止しました', false, {color: 'secondary', label: '閉じる'})
       if (result === 'ERR') this.modal.showModal('画像取得失敗', 'IDを確認してください', false, {color: 'secondary', label: '閉じる'})

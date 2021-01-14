@@ -10,6 +10,7 @@ STORAGE = ""
 ID = ""
 OFFSET = None
 IS_CANCELED = False
+CNT = 0
 
 def store_user_info(id, pswd):
     folder = os.path.dirname(USER_INFO_PATH)
@@ -36,12 +37,14 @@ def py_set_target(id):
     global ID
     global OFFSET
     global IS_CANCELED
+    global CNT
 
     ID = id
     STORAGE = Path.cwd() / "images" / ID
     if not os.path.exists(STORAGE): os.makedirs(STORAGE)
     OFFSET = None
     IS_CANCELED = False
+    CNT = 0
 
 @eel.expose
 def py_cancel():
@@ -52,6 +55,7 @@ def py_cancel():
 @eel.expose
 def py_get_image():
     global OFFSET
+    global CNT
 
     try:
         if IS_CANCELED: return "CANCEL"
@@ -60,10 +64,14 @@ def py_get_image():
         for illust in res['illustrations']: illust.download(directory=STORAGE, size=Size.ORIGINAL)
         if res['next'] is None: return "SUCCESS"
         OFFSET = res['next']
+        CNT = CNT + 1
         return 'CONTINUE'
     except Exception as e:
         os.rmdir(STORAGE)
         return "ERR"
+
+@eel.expose
+def py_get_cnt(): return str(CNT)
 
 def onCloseWindow(page, sockets):
     print(sockets)
