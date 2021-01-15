@@ -1,5 +1,4 @@
-import eel, os, pickle
-import sys
+import eel, os, pickle, sys
 from pathlib import Path
 from pixivapi import Size, Client
 from pixivapi.errors import LoginError
@@ -65,13 +64,10 @@ def py_get_image():
         if res['next'] is None: return "SUCCESS"
         OFFSET = res['next']
         CNT = CNT + 1
-        return 'CONTINUE'
+        return CNT
     except Exception as e:
         os.rmdir(STORAGE)
         return "ERR"
-
-@eel.expose
-def py_get_cnt(): return str(CNT)
 
 def onCloseWindow(page, sockets):
     print(sockets)

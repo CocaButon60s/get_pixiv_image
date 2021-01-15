@@ -26,8 +26,8 @@ export default {
     },
     async get_image_loop () {
       var result = await eel.py_get_image()()
-      if (result === 'CONTINUE') {
-        this.modal.setContent('取得中 ...' + await eel.py_get_cnt()())
+      if (!isNaN(result)) {
+        this.modal.setContent('取得中 ...' + result.toString())
         setTimeout(this.get_image_loop, 0)
       }
       if (result === 'SUCCESS') this.modal.showModal('画像取得成功', 'imagesフォルダ内を確認してください', false, {color: 'secondary', label: '閉じる'})
