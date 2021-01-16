@@ -15,4 +15,4 @@ python_version = "3.8"
 [scripts]
 init = "pwsh scripts/init.ps1"
 start = "python main.py"
-build = "python -m eel main.py web/dist --onefile --noconsole"
+build = 'python -m eel main.py web/dist --onefile --noconsole --add-data ".\\.venv\\Lib\\site-packages\\cloudscraper\\;.\\cloudscraper\\"'
